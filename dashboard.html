@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard - AuthorAura</title>
+  <link rel="stylesheet" href="dashboard-style.css" />
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>AuthorAura</h2>
+
+      <!-- 👤 Profile Avatar Section -->
+      <div class="avatar-section">
+        <img id="avatar-preview" src="default-avatar.png" alt="Avatar" />
+        <input type="file" id="avatarInput" accept="image/*" />
+      </div>
+
+      <!-- 📧 Display User Email -->
+      <p id="sidebar-email">Loading...</p>
+
+      <!-- 🌙 Dark Mode Toggle -->
+      <div class="dark-toggle">
+        <label for="darkSwitch">🌙 Dark Mode</label>
+        <input type="checkbox" id="darkSwitch" />
+      </div>
+
+      <!-- 🔗 Navigation Buttons -->
+      <a href="index.html" class="go-home-btn">🌐 Home</a>
+      <button onclick="logout()">Logout</button>
+    </aside>
+
+    <!-- Main Dashboard Content -->
+    <main class="dashboard">
+      <h1 id="welcome-message">Welcome!</h1>
+      <p>This is your author marketing dashboard.</p>
+
+      <!-- 💳 Dashboard Cards -->
+      <div class="cards">
+        <div class="card">
+          <h3>📊 Client Stats</h3>
+          <p>15 authors managed</p>
+        </div>
+        <div class="card">
+          <h3>📨 New Messages</h3>
+          <p>3 unread messages</p>
+        </div>
+        <div class="card">
+          <h3>📣 Book Tools</h3>
+          <p>Promo Generator • Trailer Builder</p>
+        </div>
+        <div class="card">
+          <h3>🧑 Profile Info</h3>
+          <p id="user-email">Loading...</p>
+        </div>
+      </div>
+
+      <!-- 🎥 Promo/Trailer Generator -->
+      <section style="margin-top: 2rem;">
+        <button onclick="openPromoModal()">🎥 Create Book Promo</button>
+      </section>
+
+      <!-- 🛠️ Admin-Only Section -->
+      <section id="admin-panel" style="display: none; margin-top: 2rem;">
+        <h2>🛠️ Admin Panel</h2>
+        <ul class="admin-controls">
+          <li><button onclick="manageUsers()">👥 Manage Users</button></li>
+          <li><button onclick="viewReports()">📄 View Reports</button></li>
+          <li><button onclick="settings()">⚙️ System Settings</button></li>
+        </ul>
+      </section>
+
+      <!-- ✅ Updated Services Section -->
+      <section style="margin-top: 2rem;">
+        <h2>📚 AuthorAura Services</h2>
+        <p>We help authors with:</p>
+        <ul style="line-height: 1.8;">
+          <li>🎥 Book Trailers & Promo Videos</li>
+          <li>🌐 Author Website Setup</li>
+          <li>📖 Publishing Support</li>
+          <li>📢 Marketing & Social Media Promotion</li>
+          <li>🎨 Book Cover Design & Branding</li>
+        </ul>
+        <p style="margin-top: 1rem;">👉 To get started, click the <strong>Home</strong> button in the sidebar to view and request services.</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- 📽 Promo Modal -->
+  <div id="promoModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2>Create Book Promo</h2>
+      <input type="text" id="bookTitle" placeholder="Book Title" />
+      <input type="text" id="tagline" placeholder="Tagline / Hook" />
+      <input type="url" id="trailerURL" placeholder="Optional Video URL" />
+      <button onclick="generatePromo()">Generate</button>
+      <button onclick="closePromoModal()">Close</button>
+      <p id="promoResult" style="margin-top: 1rem;"></p>
+    </div>
+  </div>
+
+  <!-- 🔧 JavaScript -->
+  <script>
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    const welcomeMsg = document.getElementById("welcome-message");
+    const emailDisplay = document.getElementById("user-email");
+    const sidebarEmail = document.getElementById("sidebar-email");
+    const adminPanel = document.getElementById("admin-panel");
+
+    if (!user) {
+      alert("Please log in first.");
+      window.location.href = "login.html";
+    } else {
+      welcomeMsg.textContent = `Welcome, ${user.name || user.email}! 👋`;
+      emailDisplay.textContent = user.email;
+      sidebarEmail.textContent = user.email;
+
+      if (user.isAdmin) {
+        adminPanel.style.display = "block";
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("userAvatar");
+      alert("Logging out...");
+      window.location.href = "login.html";
+    }
+
+    // Avatar upload
+    const avatarInput = document.getElementById("avatarInput");
+    const avatarPreview = document.getElementById("avatar-preview");
+    const savedAvatar = localStorage.getItem("userAvatar");
+    if (savedAvatar) {
+      avatarPreview.src = savedAvatar;
+    }
+    avatarInput.addEventListener("change", function () {
+      const file = avatarInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          avatarPreview.src = e.target.result;
+          localStorage.setItem("userAvatar", e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Admin Actions
+    function manageUsers() {
+      alert("👥 Admin: Managing users...");
+    }
+
+    function viewReports() {
+      alert("📄 Admin: Viewing reports...");
+    }
+
+    function settings() {
+      alert("⚙️ Admin: System settings...");
+    }
+
+    // Dark Mode
+    const darkSwitch = document.getElementById("darkSwitch");
+    if (localStorage.getItem("darkMode") === "enabled") {
+      document.body.classList.add("dark-mode");
+      darkSwitch.checked = true;
+    }
+    darkSwitch.addEventListener("change", function () {
+      if (this.checked) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("darkMode", "enabled");
+      } else {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("darkMode", "disabled");
+      }
+    });
+
+    // Promo Modal
+    function openPromoModal() {
+      document.getElementById("promoModal").style.display = "flex";
+    }
+    function closePromoModal() {
+      document.getElementById("promoModal").style.display = "none";
+      document.getElementById("promoResult").textContent = "";
+    }
+    function generatePromo() {
+      const title = document.getElementById("bookTitle").value;
+      const tagline = document.getElementById("tagline").value;
+      const video = document.getElementById("trailerURL").value;
+      const result = document.getElementById("promoResult");
+
+      if (!title || !tagline) {
+        result.textContent = "❌ Please provide both a title and tagline.";
+        result.style.color = "red";
+        return;
+      }
+
+      result.style.color = "green";
+      result.innerHTML = `✅ Promo created!<br><strong>${title}</strong><br><em>${tagline}</em><br>${video ? `🎬 <a href="${video}" target="_blank">Watch Trailer</a>` : ""}`;
+    }
+  </script>
+</body>
+</html>

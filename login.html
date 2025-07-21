@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - AuthorAura</title>
+  <link rel="stylesheet" href="login-style.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" required>
+
+      <button type="submit">Login</button>
+      <p id="error-message" class="error"></p>
+    </form>
+
+    <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const errorMsg = document.getElementById("error-message");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      const matchedUser = users.find(user => user.email === email && user.password === password);
+
+      if (matchedUser) {
+        // ✅ Save current user to localStorage for dashboard use
+        localStorage.setItem("currentUser", JSON.stringify(matchedUser));
+
+        // ✅ Save login time
+        const now = new Date().toLocaleString();
+        localStorage.setItem("lastLoginTime", now);
+
+        // ➡ Redirect to dashboard
+        window.location.href = "dashboard.html";
+      } else {
+        errorMsg.textContent = "❌ Invalid email or password.";
+      }
+    });
+  </script>
+</body>
+</html>

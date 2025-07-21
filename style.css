@@ -1,0 +1,224 @@
+/* 🌄 Background + General Body Styles */
+body {
+  background-image: url('background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  background-color: #fff;
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* 🌃 Dark Mode Support */
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+/* 🌃 Dark Mode Toggle Button */
+.dark-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+.dark-toggle:hover {
+  background-color: #0056b3;
+}
+
+/* 🧽 Navigation Styles */
+header {
+  background-color: #007BFF;
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+nav li {
+  margin: 0 15px;
+}
+nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+nav a:hover {
+  color: #FFD700;
+}
+
+/* 🌫️ Fade In Animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 🧾 General Page Styles */
+section {
+  padding: 40px 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+h1, h2 {
+  text-align: center;
+  font-size: 28px;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  margin: 10px 0;
+}
+blockquote {
+  font-style: italic;
+  background: #f9f9f9;
+  border-left: 4px solid #ccc;
+  margin: 20px auto;
+  padding: 10px 20px;
+  max-width: 750px;
+}
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+  color: #333;
+}
+a {
+  color: #007BFF;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ✉️ Contact Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+button {
+  background-color: #007BFF;
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #0056b3;
+}
+
+/* 👤 Founder Image Styles */
+.founder-img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* 🧱 Modern Service Cards */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 20px;
+}
+.service-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+body.dark-mode .service-card {
+  background: #1e1e1e;
+  color: #f0f0f0;
+}
+.service-card:hover {
+  transform: translateY(-5px);
+}
+.service-card h3 {
+  margin-top: 0;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.service-card ul li {
+  margin: 5px 0;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+/* 💬 Floating Chat Button */
+.chat-float {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: #28a745;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transition: background-color 0.3s ease;
+}
+.chat-float:hover {
+  background-color: #1c7c31;
+}
+
+@media (max-width: 600px) {
+  h1, h2 {
+    font-size: 22px;
+  }
+  .service-card h3 {
+    font-size: 18px;
+  }
+  .chat-float, .dark-toggle {
+    font-size: 14px;
+    width: 40px;
+    height: 40px;
+  }
+}
